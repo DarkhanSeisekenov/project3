@@ -13,7 +13,6 @@ public class SubMenuHolder {
         subMenus = new SubMenu[LENGTH];
     }
 
-
     public void add() {
         System.out.println("\nWrite the names of categories separated by coma (c1, c2, ...)");
         System.out.print("> ");
@@ -29,8 +28,8 @@ public class SubMenuHolder {
         }
     }
 
-
     public void remove() {
+
         System.out.println("\nTip: write the indexes separated by comma (i1, i2, ...)");
         display();
         System.out.print("\n> ");
@@ -45,8 +44,7 @@ public class SubMenuHolder {
         }
     }
 
-
-    public void changePrice() {
+    public void changePrices() {
         System.out.println("\nChoose subcategories for which you want to change prices: ");
         System.out.println("\nTip: write the indexes seperated by comma (i1, i2, ...)");
         System.out.print(">");
@@ -63,16 +61,25 @@ public class SubMenuHolder {
         }
     }
 
-
     public void display() {
+        if (size == 0) {
+            System.out.println("\nYou don't have subcategories in this category.");
+        }
+
         for (int i = 0; i < size; i++) {
             System.out.print((i + 1) + ". ");
-            System.out.println(subMenus[i].getName());
+            System.out.println(subMenus[i].getName()+".");
         }
     }
 
+    public void displayPrices(){
+        for(int i=0;i<size;i++){
+            System.out.print((i+1)+". "+subMenus[i].getName());
+            System.out.println(subMenus[i].getPrice()+" - kzt.");
+        }
+    }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
