@@ -1,4 +1,4 @@
-package com.darkhan.Salambro;
+package salambro;
 
 public class Main {
     
