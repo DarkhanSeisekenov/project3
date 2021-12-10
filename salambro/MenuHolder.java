@@ -6,9 +6,9 @@ public class MenuHolder {
     static Scanner scanner = new Scanner(System.in);
     static final int LENGTH = 10;
 
-    String welcomeMessage = "";
-    Menu[] menus = null;
-    int size = 0;
+    private String welcomeMessage = "";
+    private Menu[] menus = null;
+    private int size = 0;
 
     public MenuHolder() {
         menus = new Menu[LENGTH];
@@ -23,7 +23,7 @@ public class MenuHolder {
     public void add() {
         System.out.println("\nWrite the names of categories separated by coma (c1, c2, ...)");
         System.out.print("> ");
-        String[] texts = scanner.nextLine().split(" ,");
+        String[] texts = scanner.nextLine().split(", ");
 
         for (int i = 0; i < texts.length; i++) {
             if (menus.length == size) {
@@ -40,13 +40,20 @@ public class MenuHolder {
         display();
         System.out.println("\nTip: write the indexes separated by comma (i1, i2, ...)");
         System.out.print("> ");
-        String[] indexes = scanner.nextLine().split(" ,");
+        String[] indexes = scanner.nextLine().split(", ");
         int temp;
         for (int i = 0; i < indexes.length; i++) {
-            temp = Integer.parseInt(indexes[i]);
+            temp = Integer.parseInt(indexes[i]) - 1;
             if (temp < size) {
-                shift(menus, temp, size);
+                menus[temp] = null;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (menus[i] == null) {
+                shift(menus, i, size);
                 size--;
+                i--;
             }
         }
     }
@@ -55,7 +62,7 @@ public class MenuHolder {
         System.out.println("\nChoose a category for which you want add subcategories:");
         display();
         System.out.print("\n> ");
-        int index = scanner.nextInt();
+        int index = scanner.nextInt() - 1;
         scanner.nextLine();
         if (index < size) {
             menus[index].addSubMenu();
@@ -73,7 +80,7 @@ public class MenuHolder {
         System.out.println("\nChoose a category for which you want remove subcategories:");
         display();
         System.out.print("\n> ");
-        int index = scanner.nextInt();
+        int index = scanner.nextInt() - 1;
         scanner.nextLine();
 
         if (index < size) {
@@ -92,7 +99,7 @@ public class MenuHolder {
         System.out.println("\nChoose a category for which you want to change prices of subcategories:");
         display();
         System.out.print("\n>");
-        int index = scanner.nextInt();
+        int index = scanner.nextInt() - 1;
         scanner.nextLine();
 
         if (index < size) {
@@ -123,7 +130,7 @@ public class MenuHolder {
         System.out.println("\nChoose a category for which you want to see its subcategories:");
         display();
         System.out.print("\n> ");
-        int index = scanner.nextInt();
+        int index = scanner.nextInt() - 1;
         scanner.nextLine();
         if (index < size) {
             menus[index].displaySubMenu();
@@ -132,8 +139,8 @@ public class MenuHolder {
         }
     }
 
-    public void displayPrices(){
-        if(size == 0){
+    public void displayPrices() {
+        if (size == 0) {
             System.out.println("\nYou don't have a menu yet.");
             return;
         }
@@ -141,19 +148,34 @@ public class MenuHolder {
         System.out.println("\nChoose the category for whitch you want to see its subcategoris's prices: ");
         display();
         System.out.print("\n> ");
-        int index = scanner.nextInt();
+        int index = scanner.nextInt() - 1;
         scanner.nextLine();
 
-        if(index < size){
+        if (index < size) {
             menus[index].displaySPrices();
-        }else{
+        } else {
             System.out.println("Wrong index!");
         }
     }
 
-
     public void displayWelcome() {
-        System.out.println(welcomeMessage);
+        System.out.println("\n"+welcomeMessage);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getMenuName(int index) {
+        return menus[index].getName();
+    }
+
+    public SubMenu getSubMenu(int index, int subIndex) {
+        return menus[index].getHolder().getSubMenu(subIndex);
+    }
+
+    public int getSubSize(int index) {
+        return menus[index].getHolder().getSize();
     }
 
     public static Menu[] lengthen(Menu[] menus) {
@@ -165,7 +187,7 @@ public class MenuHolder {
     }
 
     public static void shift(Menu[] menus, int index, int size) {
-        for (int i = index + 1; i < size - 1; i++) {
+        for (int i = index; i < size - 1; i++) {
             menus[i] = menus[i + 1];
         }
 

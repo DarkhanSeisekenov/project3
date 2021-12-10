@@ -6,6 +6,7 @@ public class Menu {
 
     public Menu(String name) {
         this.name = name;
+        holder = new SubMenuHolder();
     }
 
     public String getName() {
@@ -35,6 +36,7 @@ public class Menu {
 
     public void displaySubMenu() {
         if (holder.getSize() != 0) {
+            System.out.print("\n");
             holder.display();
         } else {
             System.out.println("\nYou don't have subcategories in this category.");
@@ -48,5 +50,9 @@ public class Menu {
         }else{
             System.out.println("\nYou don't have subcategories in this category.");
         }
+    }
+
+    public SubMenuHolder getHolder(){
+        return holder;
     }
 }

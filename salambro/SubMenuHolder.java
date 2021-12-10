@@ -1,5 +1,4 @@
 package salambro;
-
 import java.util.Scanner;
 
 public class SubMenuHolder {
@@ -16,7 +15,7 @@ public class SubMenuHolder {
     public void add() {
         System.out.println("\nWrite the names of categories separated by coma (c1, c2, ...)");
         System.out.print("> ");
-        String[] texts = scanner.nextLine().split(" ,");
+        String[] texts = scanner.nextLine().split(", ");
 
         for (int i = 0; i < texts.length; i++) {
             if (subMenus.length == size) {
@@ -33,29 +32,37 @@ public class SubMenuHolder {
         System.out.println("\nTip: write the indexes separated by comma (i1, i2, ...)");
         display();
         System.out.print("\n> ");
-        String[] indexes = scanner.nextLine().split(" ,");
+        String[] indexes = scanner.nextLine().split(", ");
         int temp;
         for (int i = 0; i < indexes.length; i++) {
-            temp = Integer.parseInt(indexes[i]);
+            temp = Integer.parseInt(indexes[i]) - 1;
             if (temp < size) {
-                shift(subMenus, temp, size);
+                subMenus[temp] = null;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (subMenus[i] == null) {
+                shift(subMenus, i, size);
                 size--;
+                i--;
             }
         }
     }
 
     public void changePrices() {
         System.out.println("\nChoose subcategories for which you want to change prices: ");
-        System.out.println("\nTip: write the indexes seperated by comma (i1, i2, ...)");
+        display();
+        System.out.println("Tip: write the indexes seperated by comma (i1, i2, ...)");
         System.out.print(">");
-        String[] indexes = scanner.nextLine().split(" ,");
+        String[] indexes = scanner.nextLine().split(", ");
         int temp;
 
         for (int i = 0; i < indexes.length; i++) {
-            temp = Integer.parseInt(indexes[i]);
+            temp = Integer.parseInt(indexes[i]) - 1;
             if (temp < size) {
-                System.out.print("\nEnter a new price for " + subMenus[i] + ": ");
-                subMenus[i].changePrice(scanner.nextInt());
+                System.out.print("\nEnter a new price for " + subMenus[temp].getName() + ": ");
+                subMenus[temp].changePrice(scanner.nextInt());
                 scanner.nextLine();
             }
         }
@@ -68,19 +75,23 @@ public class SubMenuHolder {
 
         for (int i = 0; i < size; i++) {
             System.out.print((i + 1) + ". ");
-            System.out.println(subMenus[i].getName()+".");
+            System.out.println(subMenus[i].getName() + ".");
         }
     }
 
-    public void displayPrices(){
-        for(int i=0;i<size;i++){
-            System.out.print((i+1)+". "+subMenus[i].getName());
-            System.out.println(subMenus[i].getPrice()+" - kzt.");
+    public void displayPrices() {
+        for (int i = 0; i < size; i++) {
+            System.out.print((i + 1) + ". " + subMenus[i].getName()+" - ");
+            System.out.println(subMenus[i].getPrice() + " kzt.");
         }
     }
 
     public int getSize() {
         return size;
+    }
+
+    public SubMenu getSubMenu(int index) {
+        return subMenus[index];
     }
 
     public static SubMenu[] lengthen(SubMenu[] subMenus) {
@@ -92,7 +103,7 @@ public class SubMenuHolder {
     }
 
     public static void shift(SubMenu[] subMenus, int index, int size) {
-        for (int i = index + 1; i < size - 1; i++) {
+        for (int i = index; i < size - 1; i++) {
             subMenus[i] = subMenus[i + 1];
         }
 

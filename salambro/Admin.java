@@ -97,7 +97,7 @@ public class Admin {
     public static void displayActivity(String type) {
         System.out.println("\nHere you can do the following activities:");
         System.out.println("0. Go Back.");
-        System.out.println("1. Add ." + type + ".");
+        System.out.println("1. Add " + type + ".");
         System.out.println("2. Remove " + type + ".");
         System.out.print("\nYour choice: ");
     }
